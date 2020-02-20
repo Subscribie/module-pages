@@ -50,7 +50,6 @@ def save_new_page():
     template_file = pageName + '.html'
 
     # Writeout template_file to file
-    import pdb;pdb.set_trace()
     with open(Path(str(current_app.config['THEME_PATH']), template_file), 'w') as fh:
         fh.write(page_body)
 
