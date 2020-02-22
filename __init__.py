@@ -1,5 +1,5 @@
 from flask import (Blueprint, render_template, abort, request, redirect,
-        current_app)
+        current_app, url_for, flash, Markup)
 from jinja2 import TemplateNotFound
 from subscribie.db import get_jamla
 from subscribie.auth import login_required
@@ -59,8 +59,7 @@ def save_new_page():
     jamla['pages'].append(pathDict)
     with open(current_app.config["JAMLA_PATH"], "w") as fh:
         yaml.safe_dump(jamla, fh, default_flow_style=False)
+    flash(Markup('Your new page <a href="/{}">{}</a> will be visable after reloading'.format(pageName, pageName)))
 
     # Graceful reload app to load new page
-    #TODO
-
-    return pageName + ' ' + template_file 
+    return redirect(url_for('views.reload_app'))
