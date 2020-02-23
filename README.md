@@ -7,7 +7,7 @@ Reference user story: https://github.com/Subscribie/subscribie/issues/121
 
 ## Usage
 
-TODO: Ability to add and edit pages from the admin dashboard.
+Ability to add and edit pages from the admin dashboard.
 
 In the background, jamla.yaml stores pages in the following way:
 
