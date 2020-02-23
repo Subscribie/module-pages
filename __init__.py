@@ -64,6 +64,15 @@ def edit_page(path):
         # Generate a valid html filename
         template_file = pageName + '.html'
 
+        # Detect if page name has been changed
+        titleChanged = False
+        if path != pageName:
+            import pdb;pdb.set_trace()
+            titleChanged = True
+            oldTemplateFile = path + '.html'
+            # Delete old template file
+            oldTemplatePath = Path(str(current_app.config['THEME_PATH']), oldTemplateFile)
+            oldTemplatePath.replace(Path(str(current_app.config['THEME_PATH']), oldTemplateFile + '.old'))
         # Writeout template_file to file
         with open(Path(str(current_app.config['THEME_PATH']), template_file), 'w') as fh:
             fh.write(page_body)
@@ -79,7 +88,7 @@ def edit_page(path):
                 pageExists = True
             except KeyError:
                 pass
-        if pageExists is False:
+        if pageExists is False or titleChanged:
             jamla['pages'].append(pathDict)
             with open(current_app.config["JAMLA_PATH"], "w") as fh:
                 yaml.safe_dump(jamla, fh, default_flow_style=False)
@@ -88,7 +97,7 @@ def edit_page(path):
             flash(Markup('Page edited. <a href="/{}">{}</a> '.format(pageName, pageName)))
 
         # Graceful reload app to load new page
-        return redirect(url_for('views.reload_app'))
+        return redirect(url_for('views.reload_app') + '?next=' + url_for('pages.edit_pages_list'))
 
 
 
@@ -143,4 +152,4 @@ def save_new_page():
         flash(Markup('The page <a href="/{}">{}</a> already exists'.format(pageName, pageName)))
 
     # Graceful reload app to load new page
-    return redirect(url_for('views.reload_app'))
+    return redirect(url_for('views.reload_app') + '?next=' + url_for('pages.edit_pages_list'))
