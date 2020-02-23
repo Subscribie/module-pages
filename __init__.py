@@ -22,6 +22,51 @@ def add_page():
     """Return add page form"""
     return render_template('add_page.html', jamla=get_jamla())
 
+@module_pages.route('/delete-pages')
+@login_required
+def delete_pages_list():
+    jamla = get_jamla()
+    pages = jamla['pages']
+
+    return render_template('delete_pages_list.html', pages=pages, jamla=get_jamla())
+
+@module_pages.route('/delete-page/<path>', methods=['POST', 'GET'])
+@login_required
+def delete_page_by_path(path):
+    """Delete a given page"""
+    jamla = get_jamla()
+    if "confirm" in request.args:
+        confirm = False
+        return render_template(
+            "delete_pages_list.html",
+            jamla=jamla,
+            path=path,
+            confirm=False,
+        )
+    # Perform template file deletion
+    templateFile = path + '.html'
+    templateFilePath = Path(str(current_app.config['THEME_PATH']), templateFile)
+    try:
+        templateFilePath.unlink()
+    except FileNotFoundError:
+        pass
+
+    # Perform jamla page object deletion
+    index = 0
+    for page in jamla['pages']:
+        try:
+            page[path]
+            jamla['pages'].pop(index)
+        except KeyError:
+            pass
+        index += 1
+    # Save updated jamla
+    with open(current_app.config["JAMLA_PATH"], "w") as fh:
+        yaml.safe_dump(jamla, fh, default_flow_style=False)
+
+    flash('Page deleted.')
+    return render_template('delete_pages_list.html', pages=jamla['pages'], jamla=get_jamla())
+
 @module_pages.route('/edit-pages')
 @login_required
 def edit_pages_list():
@@ -88,7 +133,6 @@ def edit_page(path):
 
         #Remove reference to old page in jamla->pages if title has changed
         if titleChanged:
-            import pdb;pdb.set_trace()
             index = 0
             for page in jamla['pages']:
                 try:
