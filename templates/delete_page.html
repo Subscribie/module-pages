@@ -1,0 +1,47 @@
+{% extends "admin/layout.html" %}
+{% block title %} {{ title }} {% endblock %}
+
+{% block hero %}
+
+    <h1 class="title is-1 has-text-white has-text-centered is-size-3-mobile">Delete Page</h1>
+
+{% endblock %}
+
+{% block body %}
+      
+<div style="padding: 1rem 1.5rem 0 1.5rem;">
+  <div class="container">
+    <nav class="breadcrumb" aria-label="breadcrumbs">
+      <ul>
+        <p>You're here: </p>
+        <li><a href="{{ url_for("admin.dashboard") }}">Dashboard</a></li>
+        <li class="is-active"><a href="#" aria-current="page">Delete Page</a></li>
+      </ul>
+    </nav>
+  </div>
+</div>
+
+<div class="section">
+  <div class="container">
+
+    <div class="columns">
+      <div class="column">
+        <h2 class="title is-2">Delete page</h2>
+        <p>Delete the page below.</p>
+        <hr />
+
+      </div><!-- end column -->
+
+      <div class="is-divider-vertical"></div>
+      <div class="column is-one-third" style="padding:0;">
+        <h3 class="title is-5">Notes</h3>
+        <ul>
+          <li></li>
+          <li></li>
+          <li></li>
+        </ul>
+        <br />
+      </div>
+    </div>
+
+{% endblock body %}
