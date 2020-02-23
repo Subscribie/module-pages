@@ -3,7 +3,7 @@
 
 {% block hero %}
 
-    <h1 class="title is-1 has-text-white has-text-centered is-size-3-mobile">Pages</h1>
+    <h1 class="title is-1 has-text-white has-text-centered is-size-3-mobile">Edit Page</h1>
 
 {% endblock %}
 
@@ -15,7 +15,7 @@
       <ul>
         <p>You're here: </p>
         <li><a href="{{ url_for("admin.dashboard") }}">Dashboard</a></li>
-        <li class="is-active"><a href="#" aria-current="page">Pages</a></li>
+        <li class="is-active"><a href="#" aria-current="page">Edit Page</a></li>
       </ul>
     </nav>
   </div>
@@ -26,14 +26,23 @@
 
     <div class="columns">
       <div class="column">
-        <h2 class="title is-2">Add, Edit, &amp; Delete Pages</h2>
-        <ul>
-          <li><a href="{{ url_for('pages.add_page') }}">Add page</a></li>
-          <li><a href="{{ url_for('pages.edit_pages_list') }}">Edit page</a></li>
-          <li><a href="">Delete page</a></li>
-        </ul>
+        <h2 class="title is-2">Edit page</h2>
+        <p>Edit the page below.</p>
+        <hr />
 
-      </div>
+        <form action="#" method="POST">
+          <label>Page Title: <input name="page-title" type="text" value="{{ pageTitle }}" autofocus /> <br />
+
+          <label for="page-body">Page content:</label> <br />
+          <textarea name="page-body" id="page-body"
+            cols="80" rows="50">
+            {{ rawPageContent }}
+          </textarea>
+          <br />
+          <input type="submit" value="Save" />
+        </form>
+        
+      </div><!-- end column -->
 
       <div class="is-divider-vertical"></div>
       <div class="column is-one-third" style="padding:0;">

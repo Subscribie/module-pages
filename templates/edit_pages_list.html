@@ -3,7 +3,7 @@
 
 {% block hero %}
 
-    <h1 class="title is-1 has-text-white has-text-centered is-size-3-mobile">Pages</h1>
+    <h1 class="title is-1 has-text-white has-text-centered is-size-3-mobile">Edit Pages</h1>
 
 {% endblock %}
 
@@ -15,7 +15,7 @@
       <ul>
         <p>You're here: </p>
         <li><a href="{{ url_for("admin.dashboard") }}">Dashboard</a></li>
-        <li class="is-active"><a href="#" aria-current="page">Pages</a></li>
+        <li class="is-active"><a href="#" aria-current="page">Edit Pages</a></li>
       </ul>
     </nav>
   </div>
@@ -26,14 +26,21 @@
 
     <div class="columns">
       <div class="column">
-        <h2 class="title is-2">Add, Edit, &amp; Delete Pages</h2>
+        <h2 class="title is-2"></h2>
+        <p>Select a page to edit.</p>
+        <hr />
         <ul>
-          <li><a href="{{ url_for('pages.add_page') }}">Add page</a></li>
-          <li><a href="{{ url_for('pages.edit_pages_list') }}">Edit page</a></li>
-          <li><a href="">Delete page</a></li>
+        {% for page in pages %}
+          {% for key, value in page.items() %}
+          <li>
+            <a href="{{ url_for('pages.edit_page', path=value['path']) }}">
+              {{ value['path'] }}
+            </a>
+          </li>
+          {% endfor %}
+        {% endfor %}
         </ul>
-
-      </div>
+      </div><!-- end column -->
 
       <div class="is-divider-vertical"></div>
       <div class="column is-one-third" style="padding:0;">
