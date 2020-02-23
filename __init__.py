@@ -56,10 +56,21 @@ def save_new_page():
     # Add path to jamla and save jamla
     pathDict = {pageName: {'path': pageName, 'template_file' : template_file}}
     jamla = get_jamla()
-    jamla['pages'].append(pathDict)
-    with open(current_app.config["JAMLA_PATH"], "w") as fh:
-        yaml.safe_dump(jamla, fh, default_flow_style=False)
-    flash(Markup('Your new page <a href="/{}">{}</a> will be visable after reloading'.format(pageName, pageName)))
+    # Check page doesnt already exist
+    pageExists = False
+    for page in jamla['pages']:
+        try:
+            page[pageName]
+            pageExists = True
+        except KeyError:
+            pass
+    if pageExists is False:
+        jamla['pages'].append(pathDict)
+        with open(current_app.config["JAMLA_PATH"], "w") as fh:
+            yaml.safe_dump(jamla, fh, default_flow_style=False)
+        flash(Markup('Your new page <a href="/{}">{}</a> will be visable after reloading'.format(pageName, pageName)))
+    else:
+        flash(Markup('The page <a href="/{}">{}</a> already exists'.format(pageName, pageName)))
 
     # Graceful reload app to load new page
     return redirect(url_for('views.reload_app'))
