@@ -67,18 +67,15 @@ def edit_page(path):
         # Detect if page name has been changed
         titleChanged = False
         if path != pageName:
-            import pdb;pdb.set_trace()
             titleChanged = True
             oldTemplateFile = path + '.html'
-            # Delete old template file
+            # Rename old template file .old
             oldTemplatePath = Path(str(current_app.config['THEME_PATH']), oldTemplateFile)
             oldTemplatePath.replace(Path(str(current_app.config['THEME_PATH']), oldTemplateFile + '.old'))
-        # Writeout template_file to file
+        # Writeout new template_file to file
         with open(Path(str(current_app.config['THEME_PATH']), template_file), 'w') as fh:
             fh.write(page_body)
 
-        # Add path to jamla and save jamla
-        pathDict = {pageName: {'path': pageName, 'template_file' : template_file}}
         jamla = get_jamla()
         # Check page doesnt already exist
         pageExists = False
@@ -88,7 +85,23 @@ def edit_page(path):
                 pageExists = True
             except KeyError:
                 pass
+
+        #Remove reference to old page in jamla->pages if title has changed
+        if titleChanged:
+            import pdb;pdb.set_trace()
+            index = 0
+            for page in jamla['pages']:
+                try:
+                    page[path]
+                    jamla['pages'].pop(index)
+                except KeyError:
+                    pass
+                index += 1
+
+        # Write out updated jamla file
         if pageExists is False or titleChanged:
+            # Build updated path dict
+            pathDict = {pageName: {'path': pageName, 'template_file' : template_file}}
             jamla['pages'].append(pathDict)
             with open(current_app.config["JAMLA_PATH"], "w") as fh:
                 yaml.safe_dump(jamla, fh, default_flow_style=False)
