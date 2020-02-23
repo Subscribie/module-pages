@@ -65,7 +65,7 @@ def delete_page_by_path(path):
         yaml.safe_dump(jamla, fh, default_flow_style=False)
 
     flash('Page deleted.')
-    return render_template('delete_pages_list.html', pages=jamla['pages'], jamla=get_jamla())
+    return redirect(url_for('views.reload_app') + '?next=' + url_for('pages.delete_pages_list'))
 
 @module_pages.route('/edit-pages')
 @login_required
