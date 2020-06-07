@@ -31,13 +31,11 @@
         <hr />
         <ul>
         {% for page in pages %}
-          {% for key, value in page.items() %}
-          <li>
-            <a href="{{ url_for('pages.edit_page', path=value['path']) }}">
-              {{ value['path'] }}
-            </a>
-          </li>
-          {% endfor %}
+        <li>
+          <a href="{{ url_for('pages.edit_page', path=page.path) }}">
+            {{ page.path }}
+          </a>
+        </li>
         {% endfor %}
         </ul>
       </div><!-- end column -->

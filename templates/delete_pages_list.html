@@ -48,16 +48,14 @@
                 <th>Delete</th>
             </thead>
 				{% for page in pages %}
-					{% for key, value in page.items() %}
-            <tr>
-                <td>{{ value['path'] }}</td>
-                <td>
-                    <a href="{{ url_for('pages.delete_page_by_path', path=value['path'],
-    confirm=1) }}" 
-                        class="button is-danger">Delete</a>
-                </td>
-            </tr>
-					{% endfor %}
+        <tr>
+            <td>{{ page.path }}</td>
+            <td>
+                <a href="{{ url_for('pages.delete_page_by_path', path=page.path,
+confirm=1) }}" 
+                    class="button is-danger">Delete</a>
+            </td>
+        </tr>
         {% endfor %}
         </table>
     {% endif %}
