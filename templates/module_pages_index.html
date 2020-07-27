@@ -21,11 +21,11 @@
       <div class="row row-cols-1 row-cols-md-2">
         <div class="col-md-7">
           <h3>Add, Edit &amp; Delete Pages</h3>
-          <ul class="list-group list-group-flush col-md-6 py-3">
-            <li class="list-group-item list-group-item-action"><a href="{{ url_for('pages.add_page') }}">Add page</a></li>
-            <li class="list-group-item list-group-item-action"><a href="{{ url_for('pages.edit_pages_list') }}">Edit page</a></li>
-            <li class="list-group-item list-group-item-action"><a href="{{ url_for('pages.delete_pages_list') }}">Delete page</a></li>
-          </ul>
+          <div class="list-group list-group-flush col-md-6 py-3">
+            <a href="{{ url_for('pages.add_page') }}" class="list-group-item list-group-item-action text-primary">Add page</a>
+            <a href="{{ url_for('pages.edit_pages_list') }}" class="list-group-item list-group-item-action text-primary">Edit page</a>
+            <a href="{{ url_for('pages.delete_pages_list') }}" class="list-group-item list-group-item-action text-primary">Delete page</a>
+          </div>
         </div>
 
         <div class="col-md-5">

@@ -1,55 +1,47 @@
 {% extends "admin/layout.html" %}
 {% block title %} {{ title }} {% endblock %}
 
-{% block hero %}
-
-    <h1 class="title is-1 has-text-white has-text-centered is-size-3-mobile">Edit Pages</h1>
-
-{% endblock %}
-
 {% block body %}
-      
-<div style="padding: 1rem 1.5rem 0 1.5rem;">
-  <div class="container">
-    <nav class="breadcrumb" aria-label="breadcrumbs">
-      <ul>
-        <p>You're here: </p>
-        <li><a href="{{ url_for("admin.dashboard") }}">Dashboard</a></li>
-        <li class="is-active"><a href="#" aria-current="page">Edit Pages</a></li>
-      </ul>
-    </nav>
-  </div>
+
+<h2 class="text-center text-dark mb-3">Edit Pages</h2>
+
+<div class="container">
+  <ul class="breadcrumb">
+    <li class="breadcrumb-item"><a href="/">Shop</a></li>
+    <li class="breadcrumb-item"><a href="{{ url_for('admin.dashboard') }}">Manage My Shop</a></li>   
+    <li class="breadcrumb-item active" aria-current="page">Edit Pages</li>
+  </ul>
 </div>
+      
+<main>
+  <div class="section">
+    <div class="container">
 
-<div class="section">
-  <div class="container">
+      <div class="row row-cols-1 row-cols-md-2">
+        <div class="col-md-7">
+          <h3>Edit Pages</h3>
+          <p class="card-subtitle text-muted">Select a page to edit.</p>
 
-    <div class="columns">
-      <div class="column">
-        <h2 class="title is-2"></h2>
-        <p>Select a page to edit.</p>
-        <hr />
-        <ul>
-        {% for page in pages %}
-        <li>
-          <a href="{{ url_for('pages.edit_page', path=page.path) }}">
-            {{ page.path }}
-          </a>
-        </li>
-        {% endfor %}
-        </ul>
-      </div><!-- end column -->
+          <div class="list-group list-group-flush col-md-6 py-3">
+            {% for page in pages %}
+              <a href="{{ url_for('pages.edit_page', path=page.path) }}" class="list-group-item list-group-item-action text-primary">
+                {{ page.path }}
+              </a>
+            {% endfor %}
+          </div>
+        </div>
 
-      <div class="is-divider-vertical"></div>
-      <div class="column is-one-third" style="padding:0;">
-        <h3 class="title is-5">Notes</h3>
-        <ul>
-          <li></li>
-          <li></li>
-          <li></li>
-        </ul>
-        <br />
+        <div class="col-md-5">
+          <h3>Notes</h3>
+          <ol class="pl-4">
+            <li></li>
+            <li></li>
+            <li></li>
+          </ol>
+        </div>
       </div>
-    </div>
+    </div><!--end container-->
+  </div><!--end section-->
+</main>
 
 {% endblock body %}
