@@ -1,50 +1,43 @@
 {% extends "admin/layout.html" %}
 {% block title %} {{ title }} {% endblock %}
 
-{% block hero %}
-
-    <h1 class="title is-1 has-text-white has-text-centered is-size-3-mobile">Pages</h1>
-
-{% endblock %}
-
 {% block body %}
-      
-<div style="padding: 1rem 1.5rem 0 1.5rem;">
-  <div class="container">
-    <nav class="breadcrumb" aria-label="breadcrumbs">
-      <ul>
-        <p>You're here: </p>
-        <li><a href="{{ url_for("admin.dashboard") }}">Dashboard</a></li>
-        <li class="is-active"><a href="#" aria-current="page">Pages</a></li>
-      </ul>
-    </nav>
-  </div>
+
+<h2 class="text-center text-dark mb-3">Pages</h2>
+
+<div class="container">
+  <ul class="breadcrumb">
+    <li class="breadcrumb-item"><a href="/">Shop</a></li>
+    <li class="breadcrumb-item"><a href="{{ url_for('admin.dashboard') }}">Manage My Shop</a></li>   
+    <li class="breadcrumb-item active" aria-current="page">Pages</li>
+  </ul>
 </div>
+      
 
-<div class="section">
-  <div class="container">
+<main>
+  <div class="section">
+    <div class="container">
 
-    <div class="columns">
-      <div class="column">
-        <h2 class="title is-2">Add, Edit &amp; Delete Pages</h2>
-        <ul>
-          <li><a href="{{ url_for('pages.add_page') }}">Add page</a></li>
-          <li><a href="{{ url_for('pages.edit_pages_list') }}">Edit page</a></li>
-          <li><a href="{{ url_for('pages.delete_pages_list') }}">Delete page</a></li>
-        </ul>
+      <div class="row row-cols-1 row-cols-md-2">
+        <div class="col-md-7">
+          <h3>Add, Edit &amp; Delete Pages</h3>
+          <ul class="list-group list-group-flush col-md-6 py-3">
+            <li class="list-group-item list-group-item-action"><a href="{{ url_for('pages.add_page') }}">Add page</a></li>
+            <li class="list-group-item list-group-item-action"><a href="{{ url_for('pages.edit_pages_list') }}">Edit page</a></li>
+            <li class="list-group-item list-group-item-action"><a href="{{ url_for('pages.delete_pages_list') }}">Delete page</a></li>
+          </ul>
+        </div>
 
+        <div class="col-md-5">
+          <h3>Notes</h3>
+          <ol class="pl-4">
+            <li>example example example</li>
+            <li>example example example example example example example example example example example example example example example example example </li>
+            <li>example example example example example </li>
+          </ol>
+        </div>
       </div>
-
-      <div class="is-divider-vertical"></div>
-      <div class="column is-one-third" style="padding:0;">
-        <h3 class="title is-5">Notes</h3>
-        <ul>
-          <li></li>
-          <li></li>
-          <li></li>
-        </ul>
-        <br />
-      </div>
-    </div>
-
+    </div> <!--end container-->
+  </div><!--end section-->
+</main>
 {% endblock body %}
