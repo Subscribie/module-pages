@@ -1,49 +1,47 @@
 {% extends "admin/layout.html" %}
 {% block title %} {{ title }} {% endblock %}
 
-{% block hero %}
-
-    <h1 class="title is-1 has-text-white has-text-centered is-size-3-mobile">Add Page</h1>
-
-{% endblock %}
-
 {% block body %}
-      
-<div style="padding: 1rem 1.5rem 0 1.5rem;">
-  <div class="container">
-    <nav class="breadcrumb" aria-label="breadcrumbs">
-      <ul>
-        <p>You're here: </p>
-        <li><a href="{{ url_for("admin.dashboard") }}">Dashboard</a></li>
-        <li class="is-active"><a href="#" aria-current="page">Add Page</a></li>
-      </ul>
-    </nav>
-  </div>
+
+<h2 class="text-center text-dark mb-3">Add Page</h2>
+
+<div class="container">
+  <ul class="breadcrumb">
+    <li class="breadcrumb-item"><a href="/">Shop</a></li>
+    <li class="breadcrumb-item"><a href="{{ url_for('admin.dashboard') }}">Manage My Shop</a></li>
+    <li class="breadcrumb-item"><a href="{{ url_for('pages.get_module_pages_index') }}">Pages</a></li>
+    <li class="breadcrumb-item active" aria-current="page">Add Page</li>
+  </ul>
 </div>
 
-<div class="section">
-  <div class="container">
+<main>
+  <div class="section">
+    <div class="container">
 
-    <div class="columns">
-      <div class="column">
-        <h2 class="title is-2">Create a new page</h2>
-        <p>Create a basic page, for example an 'about us' page.</p>
-        <hr />
+      <h3>Create a new page</h3>
+      <p class="card-subtitle mb-3 text-muted">Create a basic page, for example an 'about us' page.</p>
 
-        <form action="#" method="POST">
-          <label>Page Title: <input name="page-title" type="text" autofocus /></label> <br />
+      <hr>
 
-          <label for="page-body">Page content:</label> <br />
-          <textarea name="page-body" id="page-body"
-            cols="80" rows="50">
-          </textarea>
-          <br />
-          <input type="submit" value="Save" />
-        </form>
+      <form action="#" method="POST">
+        <div class="form-group row py-md-3">
+          <label for="page-title" class="col-sm-2 col-form-label">Page Title:</label>
+          <div class="col-sm-10">
+            <input name="page-title" id="page-title" type="text" autofocus class="form-control">
+          </div> 
+        </div>
         
-      </div><!-- end column -->
+        <div class="form-group pb-md-3">
+          <label for="page-body">Page content:</label>
+          <textarea name="page-body" id="page-body" cols="80" rows="50"></textarea>
+        </div>
 
-    </div>
+        <input type="submit" value="Save" class="btn btn-primary btn-block col-md-6 my-3 mx-auto">
+      </form>
+ 
+    </div><!--end container-->
+  </div><!--end section-->
+</main>
 
     <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
     <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.16/dist/summernote-lite.min.css" rel="stylesheet">
