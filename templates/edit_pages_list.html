@@ -25,7 +25,7 @@
         <div class="list-group list-group-flush col-md-6 py-3">
           {% for page in pages %}
             <a href="{{ url_for('pages.edit_page', path=page.path) }}" class="list-group-item list-group-item-action text-primary">
-              {{ page.path }}
+              {{ page.page_name }}
             </a>
           {% endfor %}
         </div>

@@ -71,12 +71,12 @@ def edit_page(path):
         template_file = page.template_file
         with open(Path(str(current_app.config['THEME_PATH']), template_file)) as fh:
             rawPageContent = fh.read()
-        return render_template('edit_page.html', rawPageContent=rawPageContent, pageTitle=path)
+        return render_template('edit_page.html', rawPageContent=rawPageContent, pageTitle=page.page_name)
 
     elif request.method == 'POST':
         try:
             page_title = request.form['page-title']
-            page.title = page_title
+            page.page_name = page_title
         except KeyError:
             return "Error: Page title is required"
 
@@ -85,20 +85,18 @@ def edit_page(path):
         except KeyError:
             return "Error: Page body is required"
         # Generate a valid path for url
-        pageName = ''
+        page_path = ''
         for char in page_title:
-            if char.isalnum():
-                pageName += char
+            if char.isalpha():
+                page_path += char.lower()
 
         # Generate a valid html filename
-        template_file = pageName + '.html'
+        template_file = page_path + '.html'.lower()
         page.template_file = template_file
 
         # Detect if page name has been changed
-        titleChanged = False
-        if path != pageName:
-            titleChanged = True
-            page.path = pageName
+        if page.path != page_path:
+            page.path = page_path
             oldTemplateFile = path + '.html'
             # Rename old template file .old
             oldTemplatePath = Path(str(current_app.config['THEME_PATH']), oldTemplateFile)
@@ -107,7 +105,7 @@ def edit_page(path):
         with open(Path(str(current_app.config['THEME_PATH']), template_file), 'w') as fh:
             fh.write(page_body)
 
-        flash(Markup('Page edited. <a href="/{}">{}</a> '.format(pageName, pageName)))
+        flash(Markup(f'Page edited. <a href="/{page.path}">{page.page_name}</a> '))
 
         # Save page to database
         database.session.commit()
@@ -139,10 +137,36 @@ def save_new_page():
     # Generate a valid path for url
     pageName = ''
     for char in page_title:
-        if char.isalnum():
+        if char.isalpha():
             pageName += char
     # Generate a valid html filename
     template_file = pageName + '.html'
+
+    page_header = """
+        {% extends "layout.html" %}
+        {% block title %} {{ title }} {% endblock title %}
+
+        {% block hero %}
+
+            <div class="container">
+              <div class="row">
+                <div class="col-md-8 pl-0">
+                  <h1 class="h1 text-white font-weight-bold">{{ title }}</h1>
+                </div>
+              </div>
+            </div>
+
+        {% endblock %}
+        {% block body %}
+        <div class="section">
+          <div class="container">
+          
+    """
+    page_footer = """
+          </div><!-- end container -->
+        </div><!-- end section -->
+        {% endblock body %}
+    """
 
     # Check page doesnt already exist
     page = Page.query.filter_by(path=pageName).first()
@@ -152,17 +176,18 @@ def save_new_page():
 
     # Add new page
     page = Page()
-    page.page_name = pageName
-    page.path = pageName
-    page.template_file = template_file
+    page.page_name = page_title
+    page.path = pageName.lower()
+    page.template_file = template_file.lower()
     database.session.add(page)
     database.session.commit()
 
     # Writeout template_file to file
-    with open(Path(str(current_app.config['THEME_PATH']), template_file), 'w') as fh:
-        fh.write(page_body)
+    with open(Path(str(current_app.config['THEME_PATH']), template_file.lower()), 'w') as fh:
+        full_page = page_header + page_body + page_footer
+        fh.write(full_page)
 
-    flash(Markup('Your new page <a href="/{}">{}</a> will be visable after reloading'.format(pageName, pageName)))
+    flash(Markup(f'Your new page <a href="/{page.path}">{page.page_name}</a> will be visable after reloading'))
 
     # Graceful reload app to load new page
     return redirect(url_for('views.reload_app') + '?next=' + url_for('pages.edit_pages_list'))
